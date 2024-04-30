@@ -62,8 +62,6 @@ export const AddTask = () =>{
     useEffect(() => {
       mode = taskId===undefined?'add':'update';
       if (mode === "update" && taskId) {
-        console.log("Deo gaand mra le");
-
         const fetchData = async () => {
           try {
             const response = await fetch(`http://localhost:8000/${taskId}`);
