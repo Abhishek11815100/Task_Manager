@@ -20,6 +20,7 @@ const Home = () => {
   const navigate = useNavigate();
   const [cookies, removeCookie] = useCookies([]);
   const [username, setUsername] = useState("");
+  const [flag,setFlag] = useState(false);
 
   const verifyCookie = async () => {
     console.log("e!!",cookies.token);
@@ -27,24 +28,30 @@ const Home = () => {
     // if (!cookies.token) {
     //   navigate("/login");
     // }
-    const { data } = await axios.post('http://localhost:8000',
+    const res = await axios.post('http://localhost:8000',
       {},
       { withCredentials: true }
     );
-    const { status, user } = data;
-    setUsername(user);
-    console.log(cookies);
+    const { status} = res;
+    
+    setUsername(res.data.user.username);
+   
     
     return status
-      ? (toast(`Hello ${user}`, {
-          position: "top-right",
-      }),dispatch(SaveProfile()))
+      ? (
+      //   toast(`Hello ${res.data.user.username}`, {
+      //     position: "top-right",
+      // }),
+      dispatch(SaveProfile()))
       : (removeCookie("token"));
   };
 
   useEffect(() => {
-    verifyCookie();
-  }, [cookies]);
+    if(!flag){
+      verifyCookie();
+    }
+    setFlag(true);
+  }, [flag]);
   
   const Logout = () => {
     removeCookie("token");

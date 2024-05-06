@@ -2,20 +2,35 @@ require('dotenv').config();
 const jwt = require('jsonwebtoken');
 const User = require('../model/userModel')
 
-module.exports.userVerification = (req,res)=>{
+module.exports.userVerification = async(req,res,next)=>{
 
     const token = req.cookies.token;
     console.log(token);
     if(!token){
-        return res.json({message: "token not found", status:false});
+        return res.status(400).json({message: "token not found", status:false});
     }
-    jwt.verify( token, process.env.TOKEN_KEY, async(err,data)=>{
-        if(err){
-            res.json({message:"Error while verifying", status: false});
-        }else{
-            const user = await User.findById(data.id)
-            if (user) return res.json({message:"User is verified", status: true, user: user.username })
-            else return res.json({ message: "Server error", status: false })
+    
+    let user;
+    try{
+        user=jwt.verify(token,process.env.TOKEN_KEY);
+    }catch(error){
+        return res.status(401).json({status:false, message: "Invalid token"})
+    }
+    console.log(user);
+    try{
+        user= await User.findById(user.id);
+        console.log(user);
+        if(!user){
+            return res.status(401).json({message:"User not found",status:false})
         }
-    })
+        req.user=user;
+        next();
+        //res.json({status:true, message:"profile saved successfully"});
+        
+    }
+    catch(error){
+        console.log(error);
+        return res.status(500).json({message: "Invalid token", status: false});
+    }
+    
 }

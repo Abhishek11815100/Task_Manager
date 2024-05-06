@@ -9,8 +9,8 @@ import { styled } from '@mui/system';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useState, useEffect } from 'react';
-import { AddTask } from '../AddTask/addTask';
 import { Link } from 'react-router-dom';
+import axios from "axios";
 
 const StyledList = styled(List)({
   width: '100%',
@@ -42,19 +42,30 @@ export default function Task() {
   const [open,setOpen] = useState(false);
 
   useEffect(() => {
-    fetch('http://localhost:8000/myTasks')
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-        setTasks(data);
-      });
+    const fetchData= async()=>{
+      const res= await axios.get('http://localhost:8000/myTasks');
+      //const response= res.json();
+      console.log(res);
+      setTasks(res.data);
+    }
+    fetchData();
+    
+    // fetch('http://localhost:8000/myTasks')
+    //   .then((res) => res.json())
+    //   .then((data) => {
+    //     console.log(data,"e!!!");
+    //     setTasks(data);
+    //   });
   }, []);
 
   const handleDelete = async (id)=>{
     try{
-      const response = await fetch(`http://localhost:8000/${id}`, {
-        method: "delete"
-      })
+      // const response = await fetch(`http://localhost:8000/${id}`, {
+      //   method: "delete"
+      // })
+      const res= await axios.delete(`http://localhost:8000/${id}`,
+        {withCredentials:true}
+      )
       const updatedTask =tasks.filter(task=>task._id!==id);
       setTasks(updatedTask);
     }catch(error){

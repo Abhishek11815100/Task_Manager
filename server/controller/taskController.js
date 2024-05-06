@@ -1,5 +1,6 @@
 const Task = require('../model/task');
 const mongoose = require("mongoose");
+const userverify = require('../middlewares/AuthMiddleware')
 
 const validateObjectId = (string) => {
     return mongoose.Types.ObjectId.isValid(string);
@@ -7,11 +8,12 @@ const validateObjectId = (string) => {
 
 const getTasks = async (req,res)=>{
     try{
-        const tasks = await Task.find();
+        //console.log(req.user.id);
+        const tasks = await Task.find({user:req.user.id});
         //console.log("tasks");
         res.status(200).json(tasks);
     }catch(error){
-        res.status(500).send({error:"Internal server errorget"});
+        res.status(500).send({error:"Internal server error getTasks"});
     }
 }
 const getTask = async(req,res) =>{
@@ -51,11 +53,11 @@ const postTask = async (req,res)=>{
     }
     
     try{
-        const task = await Task.create({title, description});
+        const task = await Task.create({user:req.user.id, title, description});
         return res.status(200).json({task, status: "OK", message: "Task created successfully"})
     }catch (error){
         console.log(error);
-        return res.status(500).json({ error: "Internal server errorpost"})
+        return res.status(500).json({ error: "Internal server error post"})
     }
     
 }
@@ -97,7 +99,8 @@ const deleteTask = async (req,res)=>{
         if(!task){
             return res.status(400).json({status: 'FAILED', message: "Can't find task with given Id"})
         }
-
+        // console.log("re.user.id",req.user.id);
+        // console.log("task.user",task.user);
         // if(req.user.id!==task.user){
         //     return res.status(400).json({status: 'FAILED', message: "You can't delete task of other user's"})
         // }

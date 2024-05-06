@@ -4,6 +4,9 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect } from "react";
+import axios from "axios";
+axios.defaults.withCredentials = true;
+
 
 const Wrapper = styled(Box)`
     padding: 25px 35px;
@@ -52,53 +55,68 @@ export const AddTask = () =>{
        
        
     let {taskId}=useParams();
-    let mode;
+    let mode = taskId===undefined?'add':'update';
    
     
     useEffect(() => {
       document.title = mode === "add" ? "Add task" : "Update Task";
     }, [mode]);
 
-    useEffect(() => {
-      mode = taskId===undefined?'add':'update';
-      if (mode === "update" && taskId) {
-        console.log("Deo gaand mra le");
+    useEffect(()=>{
+      console.log("Updated formData",formData);
+    })
 
+    useEffect(() => {
+      
+      if (mode === "update" && taskId) {
         const fetchData = async () => {
           try {
-            const response = await fetch(`http://localhost:8000/${taskId}`);
-            if (!response.ok) {
+            const response = await axios.get(`http://localhost:8000/${taskId}`);
+            //console.log(response);
+            const {data} = response;
+            //console.log(data);
+            if (data.status!=="OK") {
               throw new Error("Error fetching task data");
             }
-            const data = await response.json();
-            console.log(data);
+            console.log(data.task.description);
             setFormData({
+              ...formData,
               title: data.task.title,
               description: data.task.description
+              // title: data.task.title,
+              // description: data.task.description
             });
+            console.log(formData);
           } catch (error) {
             console.error("Error fetching task:", error);
           }
         };
         fetchData();
       }
-    }, []);
+    }, [mode,taskId]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
           if(mode==='add'){
-              const res = await fetch("http://localhost:8000/addTask", {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
+              const res = await axios.post("http://localhost:8000/addTask",
+              // method: "POST",
+              // headers: {
+              //   "Content-Type": "application/json",
+              // },
+              { 
                 title: formData.title,
                 description:formData.description,
-              }),
-            });
-            let resJson = await res.json();
+              },
+              // body : JSON.stringify({
+              //   title: formData.title,
+              //   description:formData.description,
+              // }),
+              {
+                withCredentials:true
+              }
+            );
+            //let resJson = await res.json();
             //console.log(resJson);
             if (res.status === 200) {
               setTitle("");
@@ -109,19 +127,30 @@ export const AddTask = () =>{
               setMessage("Please enter Title and description");
             }
           }else{
-            const res = await fetch(`http://localhost:8000/${taskId}`, {
-              method: "PUT",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
+            // const res = await fetch(`http://localhost:8000/${taskId}`, {
+            //   method: "PUT",
+            //   headers: {
+            //     "Content-Type": "application/json",
+            //   },
+            //   body: JSON.stringify({
+            //     title: formData.title,
+            //     description: formData.description,
+            //   }),
+            // });
+            // let resJson = await res.json();
+           
+            //console.log(resJson);/
+            console.log(title,description);
+            const res = await axios.put(`http://localhost:8000/${taskId}`,
+              {
                 title: formData.title,
                 description: formData.description,
-              }),
-            });
-            let resJson = await res.json();
+              },
+              {
+                withCredentials:true
+              }
+            );
            
-            //console.log(resJson);
             if (res.status === 200) {
               setTitle("");
               setDescription("");
