@@ -53,6 +53,6 @@ module.exports.Login = async (req,res,next) => {
             .send({message: "Logged In successfully", success: true, user, token});
         next();
     }catch(err){
-        return res.json({message:"Error occured while logging In"});
+        return res.json({err,message:"Error occured while logging In"});
     }
 }
