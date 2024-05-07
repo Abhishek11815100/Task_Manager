@@ -99,7 +99,7 @@ export const AddTask = () =>{
         e.preventDefault();
         try {
           if(mode==='add'){
-              const res = await axios.post("https://task-manager-aq2n.onrender.com/addTask",
+              const res = await axios.post("http://task-manager-aq2n.onrender.com/addTask",
               // method: "POST",
               // headers: {
               //   "Content-Type": "application/json",
