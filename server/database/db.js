@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const MONGO_URI = "mongodb://0.0.0.0:27017/MyTask";
+const MONGO_URI = "mongodb+srv://abhiyadav5100:QJEmMbbpNXNiEUz6@cluster0.uam60r4.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 
 mongoose.connect(MONGO_URI,{
     useNewUrlParser: true,
