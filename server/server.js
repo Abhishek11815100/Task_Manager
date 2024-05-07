@@ -16,7 +16,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.use(cors({
-    origin: 'http://localhost:3000',
+    origin: 'https://task-manager-f.onrender.com',
     credentials: true,
 }));
 
