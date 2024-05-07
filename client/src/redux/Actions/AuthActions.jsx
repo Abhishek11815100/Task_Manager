@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 export const postLoginData = (email,password) => async (dispatch) =>{
     try{
         dispatch({type: Types.LOGIN_REQUEST});
-        const {data} = await axios.post('http://localhost:8000/login',{email,password});
+        const {data} = await axios.post('https://task-manager-aq2n.onrender.com/login',{email,password});
         dispatch({
             type: Types.LOGIN_SUCCESS,
             payload: data

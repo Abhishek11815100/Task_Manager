@@ -43,14 +43,14 @@ export default function Task() {
 
   useEffect(() => {
     const fetchData= async()=>{
-      const res= await axios.get('http://localhost:8000/myTasks');
+      const res= await axios.get('https://task-manager-aq2n.onrender.com/myTasks');
       //const response= res.json();
       console.log(res);
       setTasks(res.data);
     }
     fetchData();
     
-    // fetch('http://localhost:8000/myTasks')
+    // fetch('https://task-manager-aq2n.onrender.com/myTasks')
     //   .then((res) => res.json())
     //   .then((data) => {
     //     console.log(data,"e!!!");
@@ -60,10 +60,10 @@ export default function Task() {
 
   const handleDelete = async (id)=>{
     try{
-      // const response = await fetch(`http://localhost:8000/${id}`, {
+      // const response = await fetch(`https://task-manager-aq2n.onrender.com/${id}`, {
       //   method: "delete"
       // })
-      const res= await axios.delete(`http://localhost:8000/${id}`,
+      const res= await axios.delete(`https://task-manager-aq2n.onrender.com/${id}`,
         {withCredentials:true}
       )
       const updatedTask =tasks.filter(task=>task._id!==id);

@@ -28,7 +28,7 @@ const Home = () => {
     // if (!cookies.token) {
     //   navigate("/login");
     // }
-    const res = await axios.post('http://localhost:8000',
+    const res = await axios.post('https://task-manager-aq2n.onrender.com',
       {},
       { withCredentials: true }
     );

@@ -6,7 +6,7 @@ export {default as SignUp} from './SignUp'
     e.preventDefault();
     try{
       const {data} = await axios.post(
-        'http://localhost:8000/signup',
+        'https://task-manager-aq2n.onrender.com/signup',
         {
           ...inputValue,
         },

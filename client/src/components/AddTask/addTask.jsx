@@ -71,7 +71,7 @@ export const AddTask = () =>{
       if (mode === "update" && taskId) {
         const fetchData = async () => {
           try {
-            const response = await axios.get(`http://localhost:8000/${taskId}`);
+            const response = await axios.get(`https://task-manager-aq2n.onrender.com/${taskId}`);
             //console.log(response);
             const {data} = response;
             //console.log(data);
@@ -99,7 +99,7 @@ export const AddTask = () =>{
         e.preventDefault();
         try {
           if(mode==='add'){
-              const res = await axios.post("http://localhost:8000/addTask",
+              const res = await axios.post("https://task-manager-aq2n.onrender.com/addTask",
               // method: "POST",
               // headers: {
               //   "Content-Type": "application/json",
@@ -127,7 +127,7 @@ export const AddTask = () =>{
               setMessage("Please enter Title and description");
             }
           }else{
-            // const res = await fetch(`http://localhost:8000/${taskId}`, {
+            // const res = await fetch(`https://task-manager-aq2n.onrender.com/${taskId}`, {
             //   method: "PUT",
             //   headers: {
             //     "Content-Type": "application/json",
@@ -141,7 +141,7 @@ export const AddTask = () =>{
            
             //console.log(resJson);/
             console.log(title,description);
-            const res = await axios.put(`http://localhost:8000/${taskId}`,
+            const res = await axios.put(`https://task-manager-aq2n.onrender.com/${taskId}`,
               {
                 title: formData.title,
                 description: formData.description,

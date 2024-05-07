@@ -4,7 +4,7 @@ module.exports = function (app) {
   app.use(
     '/api',  // Specify the base path for your API requests
     createProxyMiddleware({
-      target: 'http://localhost:8000',  // Specify the address of your API server
+      target: 'https://task-manager-aq2n.onrender.com',  // Specify the address of your API server
       changeOrigin: true,
     })
   );

@@ -23,7 +23,7 @@ const data = Array.from(e.target.elements)
 //     e.preventDefault();
 //     console.log(e);
 //     try{
-//         const res = await fetch("http://localhost:8000/addTask",{
+//         const res = await fetch("https://task-manager-aq2n.onrender.com/addTask",{
 //             method: "POST",
 //             headers: {
 //                 "Content-Type": "application/json"
