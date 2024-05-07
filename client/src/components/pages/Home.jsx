@@ -10,6 +10,7 @@ import { ToastContainer, toast } from "react-toastify";
 import Task from "../TaskList/task";
 import {useSelector, useDispatch} from 'react-redux';
 import { SaveProfile } from "../../redux/Actions/AuthActions";
+axios.defaults.withCredentials = true;
 
 const Home = () => {
 
